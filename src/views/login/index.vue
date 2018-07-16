@@ -123,7 +123,7 @@ $light_front:#fff;
       font-weight: 400;
       color: $light_front;
       margin-top: -230px;
-      
+
     }
   }
   .lang-container {

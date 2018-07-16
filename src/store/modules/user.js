@@ -1,4 +1,4 @@
-import { loginByUsername, logout, getUserInfo } from '@/api/login'
+import { loginByUsername, logoutAction, getUserInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -7,6 +7,7 @@ const user = {
     status: '',
     code: '',
     token: getToken(),
+    login: false,
     name: '',
     avatar: '',
     introduction: '',
@@ -40,6 +41,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_LOGIN: (state, login) => {
+      state.login = login
     }
   },
 
@@ -50,8 +54,12 @@ const user = {
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
           const data = response.data
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
+          commit('SET_TOKEN', data.sessionid)
+          if (data.rolelist && data.rolelist !== '') {
+            commit('SET_ROLES', data.rolelist.split(','))
+          }
+          commit('SET_NAME', data.realname)
+          setToken(response.data.sessionid)
           resolve()
         }).catch(error => {
           reject(error)
@@ -97,15 +105,22 @@ const user = {
     //     })
     //   })
     // },
-
     // 登出
-    LogOut({ commit, state }) {
+    Logout({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          removeToken()
-          resolve()
+        debugger
+        logoutAction(state.token).then(response => {
+          const data = response.data
+          if (data.result === 'success') {
+            commit('SET_NAME', '')
+            commit('SET_TOKEN', '')
+            commit('SET_ROLES', [])
+            commit('SET_LOGIN', false)
+            removeToken()
+            resolve()
+          } else {
+            reject()
+          }
         }).catch(error => {
           reject(error)
         })
