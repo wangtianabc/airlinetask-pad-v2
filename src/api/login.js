@@ -8,7 +8,8 @@ export function loginByUsername(username, password) {
   return request({
     url: '/LoginAction/Login.do',
     method: 'get',
-    params: data
+    params: data,
+    withCredentials: true
   })
 }
 
@@ -16,15 +17,7 @@ export function logoutAction(token) {
   return request({
     url: '/LoginAction/Logout.do',
     method: 'get',
-    params: { token }
+    params: { token },
+    withCredentials: true
   })
 }
-
-export function getUserInfo(token) {
-  return request({
-    url: '/LoginAction/test.do',
-    method: 'get',
-    params: { token }
-  })
-}
-

@@ -24,7 +24,6 @@
 </template>
 
 <script>
-// import { isvalidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 
 export default {
@@ -49,6 +48,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+            debugger
             this.loading = false
             this.$router.push({ path: '/' })
           }).catch(() => {
@@ -59,24 +59,6 @@ export default {
           return false
         }
       })
-    },
-    afterQRScan() {
-      // const hash = window.location.hash.slice(1)
-      // const hashObj = getQueryObject(hash)
-      // const originUrl = window.location.origin
-      // history.replaceState({}, '', originUrl)
-      // const codeMap = {
-      //   wechat: 'code',
-      //   tencent: 'code'
-      // }
-      // const codeName = hashObj[codeMap[this.auth_type]]
-      // if (!codeName) {
-      //   alert('第三方登录失败')
-      // } else {
-      //   this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-      //     this.$router.push({ path: '/' })
-      //   })
-      // }
     }
   },
   created() {
@@ -123,13 +105,12 @@ $light_front:#fff;
       font-weight: 400;
       color: $light_front;
       margin-top: -230px;
-
     }
   }
   .lang-container {
       color: $light_front;
       position: absolute;
-      top: 0x;
+      top: 0px;
       right: 0px;
       margin-top: 10px;
       margin-right: 10px;
