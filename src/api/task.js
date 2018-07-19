@@ -23,3 +23,11 @@ export function fetchTaskItems(query) {
     params: query
   })
 }
+
+export function fetchMyTaskInfo(userInfo) {
+  return request({
+    url: '/AirlineTaskAction/fetchMyTaskInfo.do',
+    method: 'get',
+    params: userInfo
+  })
+}

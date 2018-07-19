@@ -20,7 +20,7 @@
 import PanelGroup from './components/PanelGroup'
 import MyTaskList from './components/MyTaskList'
 import AllTaskList from './components/AllTaskList'
-import { fetchMyTask } from '@/api/task'
+import { fetchMyTask, fetchMyTaskInfo } from '@/api/task'
 
 export default {
   name: 'dashboard-admin',
@@ -42,6 +42,7 @@ export default {
   },
   created() {
     this.getMyTask()
+    // this.getMyTaskInfo()
   },
   methods: {
     handleSelectState(type) {
@@ -54,6 +55,11 @@ export default {
         this.onSpot = response.data.onSpot
         this.onWork = response.data.onWork
         this.finished = response.data.finished
+      })
+    },
+    getMyTaskInfo() {
+      fetchMyTaskInfo(this.$store.getters.userId).then(response => {
+        alert(response.data.result)
       })
     },
     handleClick(val) {
